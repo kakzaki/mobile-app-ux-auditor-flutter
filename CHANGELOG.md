@@ -4,6 +4,8 @@
 
 - Duplicate-info: referensi triase duplikasi + deteksi string-copy ganda
   di scanner + wiring di SKILL.md.
+- Label echo: detektor judul-diulang-subteks (guard dialog `?` + elaborasi)
+  + dokumentasi batasannya.
 
 - Anti-slop: referensi `references/ai-slop.md` (7+ tells adaptasi Flutter +
   catatan Indonesia) + gate pre-ship di SKILL.md + 2 pola scanner

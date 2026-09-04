@@ -40,3 +40,13 @@
 - P1: duplikat menyebabkan data basi/konflik (dua kebenaran berbeda).
 - P2: duplikat menambah maintenance + membingungkan ("mana yang benar?").
 - P3: penguatan berlebihan (janji sama >3x tanpa momen keputusan jelas).
+
+## Label echo (judul diulang subteks)
+
+Detektor (`label_echo_findings`): pasangan string berdekatan (≤6 baris)
+dengan ≥2 kata konten sama dan overlap ≥50% — dengan pengecualian:
+
+- Judul dialog berisi `?` dilewati (dialog memang menggemakan tombolnya).
+- Subteks yang memuat SEMUA kata judul + info baru = elaborasi, bukan echo.
+- Hasil detector adalah triase: tiap hitungan harus dikonfirmasi di layar
+  (judul + subteks yang sama-sama terlihat) sebelum diubah.

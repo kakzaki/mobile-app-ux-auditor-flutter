@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
@@ -342,6 +343,7 @@ def scan(
         + findings
     )
     findings = duplicate_copy_findings(root, files) + findings
+    findings = label_echo_findings(root, files) + findings
     return stack, findings, len(files), flutter_first
 
 
@@ -388,6 +390,77 @@ def duplicate_copy_findings(root: Path, files: list[Path]) -> list[Finding]:
                 "See references/duplicate-info.md.",
             )
         )
+    return out
+
+
+ECHO_STOPWORDS = {
+    "yang", "dan", "dari", "untuk", "dengan", "dalam", "pada", "ini",
+    "itu", "adalah", "atau", "juga", "bisa", "agar", "bila", "saat",
+    "anda", "kamu", "kita", "bunda", "the", "and", "for", "with",
+    "your", "this", "that",
+}
+
+
+def label_echo_findings(root: Path, files: list[Path]) -> list[Finding]:
+    """Flag heading text echoed by nearby subtext.
+
+    A title followed within a few lines by a description sharing most of
+    its content words ("Tekanan Darah" / "Catat tekanan darah di sini")
+    wastes vertical space and reads as filler. Descriptions must ADD
+    information (action, scope, state) instead of restating the title.
+    """
+    out: list[Finding] = []
+    for file_path in files:
+        if file_path.suffix.lower() != ".dart":
+            continue
+        rel = file_path.relative_to(root).as_posix()
+        try:
+            lines = file_path.read_text(encoding="utf-8", errors="ignore").splitlines()
+        except Exception:
+            continue
+        lits: list[tuple[int, str]] = []
+        for idx, line in enumerate(lines):
+            for match in re.finditer(r"'([^'\n]{4,120})'", line):
+                text = " ".join(match.group(1).split())
+                if text.startswith("package:") or text.startswith("http"):
+                    continue
+                lits.append((idx, text))
+        for (i1, t1), (i2, t2) in zip(lits, lits[1:]):
+            if i2 - i1 > 6 or t1 == t2:
+                continue
+
+            def words(t: str) -> set[str]:
+                return {
+                    w.lower().strip(".,!?():")
+                    for w in t.split()
+                    if len(w) > 3
+                } - ECHO_STOPWORDS
+
+            w1, w2 = words(t1), words(t2)
+            if len(w1) < 2 or len(w2) < 2:
+                continue
+            # Dialog titles intentionally mirror their button labels.
+            if "?" in t1 or "?" in t2:
+                continue
+            # Elaboration is not echo: a subtext that contains the whole
+            # title plus new information is doing its job.
+            if w1 <= w2 or w2 <= w1:
+                continue
+            overlap = w1 & w2
+            if len(overlap) >= 2 and len(overlap) / min(len(w1), len(w2)) >= 0.5:
+                out.append(
+                    Finding(
+                        "P3",
+                        "Flutter",
+                        "Duplication",
+                        "Heading echo in nearby subtext",
+                        rel,
+                        i1 + 1,
+                        f"'{t1[:80]}' // '{t2[:80]}'",
+                        "Merge the echo or make the subtext add action/scope/state. "
+                        "See references/duplicate-info.md.",
+                    )
+                )
     return out
 
 
@@ -448,6 +521,10 @@ def main() -> int:
         raise SystemExit(f"Path does not exist: {root}")
     if not root.is_dir():
         raise SystemExit(f"Path is not a directory: {root}")
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
     stack, findings, file_count, flutter_first = scan(root, args.stack)
     print(render_markdown(root, stack, findings, file_count, flutter_first))
     return 0
