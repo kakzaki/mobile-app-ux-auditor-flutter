@@ -9,6 +9,8 @@
 - Disiplin emoji: emoji dilarang di UI user-facing; gunakan icon family atau
   ilustrasi yang disetujui. Emoji legacy hanya diparse untuk kompatibilitas;
   scanner tetap menyediakan sinyal `emoji_density` sebagai triase.
+- Lisensi ikon: larangan logo/ikon proprietary atau trademarked (termasuk Apple
+  dan SF Symbols); gunakan icon family open-source dengan lisensi kompatibel.
 
 - Anti-slop: referensi `references/ai-slop.md` (7+ tells adaptasi Flutter +
   catatan Indonesia) + gate pre-ship di SKILL.md + 2 pola scanner

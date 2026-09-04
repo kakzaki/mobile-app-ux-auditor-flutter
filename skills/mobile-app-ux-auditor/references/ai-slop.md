@@ -73,3 +73,11 @@ dekorasi ekspresif.
 Emoji lama boleh diparse untuk kompatibilitas data tersimpan, tetapi tidak boleh
 dirender sebagai UI baru. Scanner dapat melaporkan `emoji_density` sebagai
 sinyal triase; audit tetap harus memastikan tidak ada emoji pada UI user-facing.
+
+## Lisensi ikon dan aset
+
+Jangan gunakan logo atau ikon brand/platform proprietary maupun trademarked
+sebagai ikon UI umum, termasuk logo Apple atau SF Symbols. Utamakan icon family
+open-source dengan lisensi yang kompatibel, seperti Phosphor, Material Icons,
+atau Lucide, dan verifikasi provenance serta kewajiban atribusinya sebelum
+menambahkan aset.
