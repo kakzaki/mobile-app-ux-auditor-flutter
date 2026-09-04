@@ -1,4 +1,11 @@
-# Mobile App UX Auditor Skill
+# Mobile App UX Auditor Skill — Flutter-first Fork
+
+> Fork oleh Zaki Mubarok dari
+> [AjnasNB/mobile-app-ux-auditor-skill](https://github.com/AjnasNB/mobile-app-ux-auditor-skill).
+> Bedanya: scanner **Flutter-first otomatis** (pola native Compose/Views/SwiftUI
+> di-skip di proyek Flutter), cek `tooltip:` multi-baris, flag `--stack
+> auto|flutter|all`. Terbukti di app Flutter nyata: P1 64 → 4 tanpa
+> kehilangan temuan valid. Sisanya dokumen upstream di bawah tetap berlaku.
 
 A portable Agent Skill by Ajnas NB for auditing and improving mobile app UI/UX flows across Flutter, React Native, Swift/iOS, Kotlin, Java, Android Views, and Jetpack Compose.
 
