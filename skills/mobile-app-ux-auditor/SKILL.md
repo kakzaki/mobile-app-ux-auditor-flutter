@@ -12,21 +12,22 @@ Audit mobile apps by mapping real user flows, finding friction with evidence, an
 ## Workflow
 
 1. State the design read: app category, audience, job-to-be-done, target platforms, product maturity, visual register, and risk level. For redesigns, preserve working navigation, copy, analytics names, and accessibility wins unless there is evidence they cause harm.
-2. If code is available, run the static signal scan before judging:
+2. Load the project's design brief first when one exists (e.g. `docs/DESAIN.md`, `DESIGN-BRIEF.md`, or the theme tokens file). Its colors, type, radius, patterns, and copy voice are **hard constraints**: new screens must reuse its tokens, and deviations in existing screens are P2 findings. Never override an established identity with generic patterns.
+3. If code is available, run the static signal scan before judging:
    ```bash
    python scripts/mobile_ux_static_scan.py <project-root>
    ```
    In Claude Code, use `python ${CLAUDE_SKILL_DIR}/scripts/mobile_ux_static_scan.py <project-root>` when the skill is installed. Treat the script as evidence-gathering, not a replacement for expert review. The scanner is Flutter-first: on Flutter projects it skips native Compose/Views/SwiftUI patterns automatically (override with `--stack all`); `IconButton` findings are only reported when no `tooltip:` is found within the constructor block.
-3. Inspect routing, screens, design system files, navigation components, analytics events, accessibility props, platform-specific UI primitives, tests, and screenshots before recommending changes.
-4. Build a compact screen and flow map: first launch, onboarding, sign-in, home, primary task, search/discovery, settings, error states, empty states, permission requests, purchase/subscription, and re-entry flows.
-5. Audit flows against platform conventions, accessibility, clarity, effort, trust, feedback, performance, adaptive layout, and ethical retention. Load `references/mobile-ux-audit-reference.md` for the detailed checklist and framework-specific code signals.
-6. Rank issues by user impact:
+4. Inspect routing, screens, design system files, navigation components, analytics events, accessibility props, platform-specific UI primitives, tests, and screenshots before recommending changes.
+5. Build a compact screen and flow map: first launch, onboarding, sign-in, home, primary task, search/discovery, settings, error states, empty states, permission requests, purchase/subscription, and re-entry flows.
+6. Audit flows against platform conventions, accessibility, clarity, effort, trust, feedback, performance, adaptive layout, and ethical retention. Load `references/mobile-ux-audit-reference.md` for the detailed checklist and framework-specific code signals.
+7. Rank issues by user impact:
    - P0: Blocks core task, causes data loss, or creates severe accessibility failure.
    - P1: Breaks navigation, trust, comprehension, or completion for many users.
    - P2: Adds avoidable friction, inconsistency, or weak platform fit.
    - P3: Polish, delight, or instrumentation improvement.
-7. When editing code, preserve the app's existing architecture and design system. Prefer native platform components and established navigation/accessibility APIs over custom controls unless the product has a clear reason.
-8. Verify with the best available evidence: emulator/simulator walkthrough, screenshots, accessibility scanner, VoiceOver/TalkBack, widget/UI tests, route tests, or static inspection. State any verification that could not be run.
+8. When editing code, preserve the app's existing architecture and design system. Prefer native platform components and established navigation/accessibility APIs over custom controls unless the product has a clear reason.
+9. Verify with the best available evidence: emulator/simulator walkthrough, screenshots, accessibility scanner, VoiceOver/TalkBack, widget/UI tests, route tests, or static inspection. State any verification that could not be run.
 
 ## Quality Bar
 
