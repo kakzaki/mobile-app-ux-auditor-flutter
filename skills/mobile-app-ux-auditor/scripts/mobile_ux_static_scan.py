@@ -356,13 +356,11 @@ EMOJI_DENSITY_THRESHOLD = 12
 
 
 def emoji_density_findings(root: Path, files: list[Path]) -> list[Finding]:
-    """Report UI files with high emoji density.
+    """Report UI files with high user-facing emoji density.
 
-    Emoji as the sole affordance is an AI-slop tell; opensource icons and
-    Lottie should carry function and decoration. Files above the threshold
-    are triage candidates, NOT verdicts — a brief-declared warm identity
-    (e.g. maternal apps) may justify them. Confirm each emoji is paired
-    with a text label or Material icon before changing anything.
+    User-facing emoji are not allowed by the skill policy. Files above the
+    threshold are triage candidates, NOT a complete audit — legacy emoji in
+    persistence formats may still be valid when they are never rendered.
     """
     out: list[Finding] = []
     for file_path in files:
@@ -390,8 +388,9 @@ def emoji_density_findings(root: Path, files: list[Path]) -> list[Finding]:
                 rel,
                 1,
                 f"{len(hits)} emoji: {top[:100]}",
-                "Keep only brief-declared emoji paired with labels; "
-                "use Material icons for affordances, Lottie for decoration. "
+                "Remove emoji from user-facing UI; use the established icon "
+                "family for affordances and approved illustrations or Lottie "
+                "for decoration. "
                 "See references/ai-slop.md.",
             )
         )

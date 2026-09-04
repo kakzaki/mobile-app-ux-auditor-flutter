@@ -58,5 +58,6 @@ When asked to improve the app directly, implement the smallest high-impact chang
 
 - Do not recommend "make users stay longer" tactics that rely on confusion, forced continuity, hidden exits, guilt, dark patterns, or notification spam.
 - Do not replace platform conventions with custom UI only for novelty.
+- Do not introduce emoji in user-facing UI text, including headings, labels, buttons, status messages, tooltips, empty/error states, or accessibility labels. Use the established icon system (for example, Phosphor Icons) for visual markers and approved illustrations or Lottie assets for expressive decoration. Legacy emoji may be parsed for backward compatibility, but must not be rendered as new UI.
 - Do not audit from static screenshots alone when code or an app build is available.
 - Do not give generic advice like "improve onboarding" without naming the exact screen, problem, and change.

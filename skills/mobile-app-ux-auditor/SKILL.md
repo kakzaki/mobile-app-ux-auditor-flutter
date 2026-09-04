@@ -20,7 +20,7 @@ Audit mobile apps by mapping real user flows, finding friction with evidence, an
    In Claude Code, use `python ${CLAUDE_SKILL_DIR}/scripts/mobile_ux_static_scan.py <project-root>` when the skill is installed. Treat the script as evidence-gathering, not a replacement for expert review. The scanner is Flutter-first: on Flutter projects it skips native Compose/Views/SwiftUI patterns automatically (override with `--stack all`); `IconButton` findings are only reported when no `tooltip:` is found within the constructor block.
 4. Inspect routing, screens, design system files, navigation components, analytics events, accessibility props, platform-specific UI primitives, tests, and screenshots before recommending changes.
 5. Build a compact screen and flow map: first launch, onboarding, sign-in, home, primary task, search/discovery, settings, error states, empty states, permission requests, purchase/subscription, and re-entry flows.
-6. Audit flows against platform conventions, accessibility, clarity, effort, trust, feedback, performance, adaptive layout, and ethical retention. Load `references/mobile-ux-audit-reference.md` for the detailed checklist and framework-specific code signals.
+6. Audit flows against platform conventions, accessibility, clarity, effort, trust, feedback, performance, adaptive layout, and ethical retention. Load `references/mobile-ux-audit-reference.md` for the detailed checklist and framework-specific code signals, `references/duplicate-info.md` for same-fact-in-two-places triage, and `references/ai-slop.md` for the pre-ship anti-slop gate.
 7. Rank issues by user impact:
    - P0: Blocks core task, causes data loss, or creates severe accessibility failure.
    - P1: Breaks navigation, trust, comprehension, or completion for many users.
@@ -28,6 +28,7 @@ Audit mobile apps by mapping real user flows, finding friction with evidence, an
    - P3: Polish, delight, or instrumentation improvement.
 8. When editing code, preserve the app's existing architecture and design system. Prefer native platform components and established navigation/accessibility APIs over custom controls unless the product has a clear reason.
 9. Verify with the best available evidence: emulator/simulator walkthrough, screenshots, accessibility scanner, VoiceOver/TalkBack, widget/UI tests, route tests, or static inspection. State any verification that could not be run.
+10. Anti-slop gate before shipping new UI: load `references/ai-slop.md`, run the category-reflex test and the pre-ship checklist. The project design brief (step 2) wins over generic patterns — constrained choices documented in the brief are decisions, not slop.
 
 ## Quality Bar
 
@@ -57,5 +58,6 @@ When asked to improve the app directly, implement the smallest high-impact chang
 
 - Do not recommend "make users stay longer" tactics that rely on confusion, forced continuity, hidden exits, guilt, dark patterns, or notification spam.
 - Do not replace platform conventions with custom UI only for novelty.
+- Do not introduce emoji in user-facing UI text, including headings, labels, buttons, status messages, tooltips, empty/error states, or accessibility labels. Use the established icon system (for example, Phosphor Icons) for visual markers and approved illustrations or Lottie assets for expressive decoration. Legacy emoji may be parsed for backward compatibility, but must not be rendered as new UI.
 - Do not audit from static screenshots alone when code or an app build is available.
 - Do not give generic advice like "improve onboarding" without naming the exact screen, problem, and change.

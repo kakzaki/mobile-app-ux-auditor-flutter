@@ -9,8 +9,9 @@
 ## Prinsip utama: BRIEF WINS
 
 Slop BUKAN daftar elemen terlarang — melainkan **default yang tak
-dipikirkan**. Gradien ungu, emoji, kartu rounded: boleh, asal ada di brief
-desain proyek dengan alasan brand. Aturannya:
+dipikirkan**. Gradien ungu dan kartu rounded boleh, asal ada di brief desain
+proyek dengan alasan brand. Emoji tidak boleh dipakai pada UI yang menghadap
+pengguna. Aturannya:
 
 - Pilihan yang TERTULIS di brief (palet, font, radius, suara copy) = keputusan,
   bukan slop — meski bentuknya mirip pola umum.
@@ -34,7 +35,7 @@ desain proyek dengan alasan brand. Aturannya:
 | 2 | Satu sans generik untuk semua job | Roboto/Inter dari headline sampai footnote, tanpa pairing | Display + body yang disengaja; skala + weight bervariasi |
 | 3 | Kartu identik massal | Grid kartu: radius, shadow, tile-ikon sama; bobot visual setara walau pentingnya beda | Variasi elevasi/radius ikut hierarki; bobot beda untuk konten beda |
 | 4 | Animasi reveal seragam | `fadeIn + slideY` durasi sama di semua layar | Durasi/easing per properti; hormati `MediaQuery.disableAnimations` |
-| 5 | Emoji sebagai SATU-SATUNYA ikon | Tombol/ikon tanpa label teks & tanpa ikon Material | Emoji boleh sebagai ilustrasi pendamping teks (lihat catatan ID) |
+| 5 | Emoji pada UI user-facing | Emoji di judul, label, tombol, status, tooltip, atau accessibility label | Gunakan icon family yang ditetapkan; emoji legacy hanya diparse untuk kompatibilitas data |
 | 6 | Semua ter-center, padding seragam | Hero center + section simetris + padding sama tiap layar | Asimetri + densitas ikut fungsi (hero vs tabel data beda) |
 | 7 | Copy buzzword generik | EN: seamless, unlock, empower, delve, "Welcome to…". ID: revolusioner, tanpa batas, canggih, "Selamat datang di [NamaApp]" | Copy spesifik: sebut fitur & angka nyata, bukan uplift kosong |
 | 8 | Status/warna tanpa makna | Merah untuk hal netral; hijau-merah hanya andalkan warna | Warna + teks/ikon/bentuk; merah dicadangkan untuk bahaya |
@@ -45,8 +46,9 @@ desain proyek dengan alasan brand. Aturannya:
 
 - **Em-dash (—) adalah tanda baca baku Indonesia**, bukan tell AI. Yang tell:
   em-dash 3–4x per paragraf + pola "not X, it's Y".
-- **Emoji di app konsumen hangat (ibu, anak, kuliner) bisa disengaja** —
-  syarat: selalu berpasangan label teks/ikon, tercatat di brief, konsisten.
+- **Emoji tidak dipakai di UI**, termasuk pada app konsumen hangat (ibu, anak,
+  kuliner). Gunakan icon family atau ilustrasi yang disetujui untuk ekspresi
+  visual; emoji legacy hanya boleh diparse untuk kompatibilitas data.
 - **Buzzword ID** yang setara: "revolusioner", "terdepan", "solusi inovatif",
   "di era digital ini", klaim superlatif tanpa angka.
 
@@ -60,19 +62,14 @@ desain proyek dengan alasan brand. Aturannya:
 - [ ] State lengkap: loading, empty, error, offline, disabled, sukses.
 - [ ] Slop test: "apakah penonton langsung bilang 'AI yang bikin'?" Bila ya, rework.
 
-## Disiplin emoji (aturan bertingkat)
+## Disiplin emoji
 
-Urutan preferensi untuk ikon di app: **ikon opensource** (Material/Cupertino/
-Phosphor) untuk fungsi & affordance → **Lottie/animasi** untuk ilustrasi
-dekoratif → **emoji hanya bila memenuhi SEMUA syarat**:
+Emoji tidak boleh muncul dalam teks UI yang menghadap pengguna, termasuk judul,
+label, tombol, status, tooltip, empty/error state, dan accessibility label.
+Gunakan icon family yang sudah ditetapkan (Material/Cupertino/Phosphor) untuk
+fungsi dan affordance, serta Lottie atau ilustrasi yang disetujui untuk
+dekorasi ekspresif.
 
-1. Selalu berpasangan label teks atau ikon Material (tak pernah jadi
-   satu-satunya affordance; TalkBack butuh nama yang jelas).
-2. Tercatat di brief desain sebagai identitas (bukan tempelan acak).
-3. Konsisten: satu konsep = satu emoji di seluruh app.
-4. Tidak di judul AppBar/navigasi primer tanpa teks pendamping.
-
-Pengecualian "memang perlu": app dengan identitas hangat/playful yang
-dideklarasikan di brief (contoh: kesehatan ibu-anak) — emoji sebagai
-aksen vokal, bukan pengganti sistem ikon. Scanner melaporkan densitas
-per file sebagai triase (`emoji_density`); keputusan tetap di audit manual.
+Emoji lama boleh diparse untuk kompatibilitas data tersimpan, tetapi tidak boleh
+dirender sebagai UI baru. Scanner dapat melaporkan `emoji_density` sebagai
+sinyal triase; audit tetap harus memastikan tidak ada emoji pada UI user-facing.
