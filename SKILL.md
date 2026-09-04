@@ -16,7 +16,7 @@ Audit mobile apps by mapping real user flows, finding friction with evidence, an
    ```bash
    python scripts/mobile_ux_static_scan.py <project-root>
    ```
-   In Claude Code, use `python ${CLAUDE_SKILL_DIR}/scripts/mobile_ux_static_scan.py <project-root>` when the skill is installed. Treat the script as evidence-gathering, not a replacement for expert review.
+   In Claude Code, use `python ${CLAUDE_SKILL_DIR}/scripts/mobile_ux_static_scan.py <project-root>` when the skill is installed. Treat the script as evidence-gathering, not a replacement for expert review. The scanner is Flutter-first: on Flutter projects it skips native Compose/Views/SwiftUI patterns automatically (override with `--stack all`); `IconButton` findings are only reported when no `tooltip:` is found within the constructor block.
 3. Inspect routing, screens, design system files, navigation components, analytics events, accessibility props, platform-specific UI primitives, tests, and screenshots before recommending changes.
 4. Build a compact screen and flow map: first launch, onboarding, sign-in, home, primary task, search/discovery, settings, error states, empty states, permission requests, purchase/subscription, and re-entry flows.
 5. Audit flows against platform conventions, accessibility, clarity, effort, trust, feedback, performance, adaptive layout, and ethical retention. Load `references/mobile-ux-audit-reference.md` for the detailed checklist and framework-specific code signals.
@@ -27,7 +27,6 @@ Audit mobile apps by mapping real user flows, finding friction with evidence, an
    - P3: Polish, delight, or instrumentation improvement.
 7. When editing code, preserve the app's existing architecture and design system. Prefer native platform components and established navigation/accessibility APIs over custom controls unless the product has a clear reason.
 8. Verify with the best available evidence: emulator/simulator walkthrough, screenshots, accessibility scanner, VoiceOver/TalkBack, widget/UI tests, route tests, or static inspection. State any verification that could not be run.
-9. For media or long-running tasks, verify one complete lifecycle: launch, play/start, pause, background, interruption, resume, completion, and recovery after process or network loss. Confirm captions and spoken text are not rendered twice.
 
 ## Quality Bar
 
@@ -38,8 +37,6 @@ Hold the output to a senior mobile product design engineer standard:
 - The UI has one coherent design system: typography scale, spacing rhythm, radius rules, color roles, interaction states, motion, density, and platform adaptation.
 - Accessibility is built into labels, roles, states, focus order, target size, screen reader output, dynamic type/font scaling, contrast, and reduced-motion behavior.
 - Mobile performance is UX: launch time, route transitions, jank, unnecessary re-renders, heavy images, blocked gestures, keyboard latency, and battery cost all matter.
-- Adaptive verification covers a compact phone, a large-text phone, a tablet or foldable layout when supported, keyboard-open state, and foreground/background restoration.
-- Media has intentional playback, visible controls, one caption presentation, screen-reader labels, audio-focus handling, and a useful transcript or equivalent when required.
 - Retention comes from saved progress, useful reminders, reduced effort, trust, and repeated value. Do not optimize for addiction.
 
 ## Output Format
@@ -51,7 +48,6 @@ Start with findings, not praise. Include:
 - Framework-specific implementation notes for Flutter, React Native, Swift/iOS, or Android as applicable.
 - Static scan findings from `scripts/mobile_ux_static_scan.py` when code is available.
 - Accessibility and adaptive-layout checks.
-- Media, interruption, offline, and resume-state checks when those capabilities exist.
 - Verification performed and remaining risks.
 
 When asked to improve the app directly, implement the smallest high-impact changes first, then report changed files and validation.
