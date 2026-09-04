@@ -2,6 +2,9 @@
 
 ## Unreleased (Flutter-first fork)
 
+- Duplicate-info: referensi triase duplikasi + deteksi string-copy ganda
+  di scanner + wiring di SKILL.md.
+
 - Anti-slop: referensi `references/ai-slop.md` (7+ tells adaptasi Flutter +
   catatan Indonesia) + gate pre-ship di SKILL.md + 2 pola scanner
   (hue default Material, typeface generik).

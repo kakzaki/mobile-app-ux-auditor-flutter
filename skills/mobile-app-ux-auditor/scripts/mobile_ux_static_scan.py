@@ -341,7 +341,54 @@ def scan(
         global_findings(root, stack, "\n".join(snippets), flutter_first)
         + findings
     )
+    findings = duplicate_copy_findings(root, files) + findings
     return stack, findings, len(files), flutter_first
+
+
+def duplicate_copy_findings(root: Path, files: list[Path]) -> list[Finding]:
+    """Flag long string literals repeated across files.
+
+    Same copy in 2+ places rots independently — single-source it or make
+    the repetition an intentional, canonical reinforcement.
+    """
+    seen: dict[str, list[tuple[str, int]]] = {}
+    for file_path in files:
+        if file_path.suffix.lower() not in {".dart", ".tsx", ".jsx", ".swift", ".kt"}:
+            continue
+        rel = file_path.relative_to(root).as_posix()
+        try:
+            lines = file_path.read_text(encoding="utf-8", errors="ignore").splitlines()
+        except Exception:
+            continue
+        for idx, line in enumerate(lines, start=1):
+            stripped = line.strip()
+            if stripped.startswith("import ") or len(stripped) < 60:
+                continue
+            for match in re.finditer(r"'([^'\n]{50,160})'", line):
+                text = " ".join(match.group(1).split())
+                seen.setdefault(text, []).append((rel, idx))
+    out: list[Finding] = []
+    for text, locs in seen.items():
+        hit_files = {loc[0] for loc in locs}
+        if len(hit_files) < 2:
+            continue
+        first, rest = locs[0], locs[1:4]
+        others = ", ".join(f"{p}:{n}" for p, n in rest)
+        platform = "Flutter" if first[0].endswith(".dart") else "All"
+        out.append(
+            Finding(
+                "P3",
+                platform,
+                "Duplication",
+                "Same copy in multiple files",
+                first[0],
+                first[1],
+                text[:100],
+                f"Single-source this copy; also found in {others}. "
+                "See references/duplicate-info.md.",
+            )
+        )
+    return out
 
 
 def render_markdown(
