@@ -2,6 +2,10 @@
 
 ## Unreleased (Flutter-first fork)
 
+- Anti-slop: referensi `references/ai-slop.md` (7+ tells adaptasi Flutter +
+  catatan Indonesia) + gate pre-ship di SKILL.md + 2 pola scanner
+  (hue default Material, typeface generik).
+
 - Scanner otomatis Flutter-first: pola Compose/Views/SwiftUI di-skip bila
   terdeteksi `pubspec.yaml` (tanpa React Native); override via `--stack all`.
 - `IconButton` hanya dilaporkan bila tak ada `tooltip:` dalam 10 baris.

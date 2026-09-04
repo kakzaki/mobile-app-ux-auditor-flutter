@@ -111,6 +111,22 @@ PATTERNS = [
         "Add semanticLabel for meaningful images or exclude decorative images from semantics.",
     ),
     (
+        "P3",
+        "Flutter",
+        "Anti-slop",
+        "Default Material hue without brand reason",
+        re.compile(r"\bColors\.(?:blue|indigo|purple|lightBlue)\b", re.I),
+        "Replace with a named brand hex from the project brief; default hues read as AI-generated.",
+    ),
+    (
+        "P3",
+        "Flutter",
+        "Anti-slop",
+        "Generic default typeface",
+        re.compile(r"GoogleFonts\.(?:inter|roboto)\b|fontFamily:\s*['\"]?(?:Roboto|Inter)['\"]?", re.I),
+        "Use a deliberate display/body pairing from the project brief instead of the statistical default.",
+    ),
+    (
         "P2",
         "Flutter",
         "Forms",

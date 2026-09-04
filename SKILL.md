@@ -28,6 +28,7 @@ Audit mobile apps by mapping real user flows, finding friction with evidence, an
    - P3: Polish, delight, or instrumentation improvement.
 8. When editing code, preserve the app's existing architecture and design system. Prefer native platform components and established navigation/accessibility APIs over custom controls unless the product has a clear reason.
 9. Verify with the best available evidence: emulator/simulator walkthrough, screenshots, accessibility scanner, VoiceOver/TalkBack, widget/UI tests, route tests, or static inspection. State any verification that could not be run.
+10. Anti-slop gate before shipping new UI: load `references/ai-slop.md`, run the category-reflex test and the pre-ship checklist. The project design brief (step 2) wins over generic patterns — constrained choices documented in the brief are decisions, not slop.
 
 ## Quality Bar
 
