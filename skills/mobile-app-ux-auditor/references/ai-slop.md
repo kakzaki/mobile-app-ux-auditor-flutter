@@ -59,3 +59,20 @@ desain proyek dengan alasan brand. Aturannya:
 - [ ] Copy: nol buzzword, nol placeholder, tiap klaim ada spesifiknya.
 - [ ] State lengkap: loading, empty, error, offline, disabled, sukses.
 - [ ] Slop test: "apakah penonton langsung bilang 'AI yang bikin'?" Bila ya, rework.
+
+## Disiplin emoji (aturan bertingkat)
+
+Urutan preferensi untuk ikon di app: **ikon opensource** (Material/Cupertino/
+Phosphor) untuk fungsi & affordance → **Lottie/animasi** untuk ilustrasi
+dekoratif → **emoji hanya bila memenuhi SEMUA syarat**:
+
+1. Selalu berpasangan label teks atau ikon Material (tak pernah jadi
+   satu-satunya affordance; TalkBack butuh nama yang jelas).
+2. Tercatat di brief desain sebagai identitas (bukan tempelan acak).
+3. Konsisten: satu konsep = satu emoji di seluruh app.
+4. Tidak di judul AppBar/navigasi primer tanpa teks pendamping.
+
+Pengecualian "memang perlu": app dengan identitas hangat/playful yang
+dideklarasikan di brief (contoh: kesehatan ibu-anak) — emoji sebagai
+aksen vokal, bukan pengganti sistem ikon. Scanner melaporkan densitas
+per file sebagai triase (`emoji_density`); keputusan tetap di audit manual.

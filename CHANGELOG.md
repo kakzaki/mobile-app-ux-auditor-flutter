@@ -6,6 +6,8 @@
   di scanner + wiring di SKILL.md.
 - Label echo: detektor judul-diulang-subteks (guard dialog `?` + elaborasi)
   + dokumentasi batasannya.
+- Disiplin emoji: seksi aturan bertingkat di `ai-slop.md` (ikon opensource >
+  Lottie > emoji berpasangan) + detektor densitas `emoji_density` di scanner.
 
 - Anti-slop: referensi `references/ai-slop.md` (7+ tells adaptasi Flutter +
   catatan Indonesia) + gate pre-ship di SKILL.md + 2 pola scanner

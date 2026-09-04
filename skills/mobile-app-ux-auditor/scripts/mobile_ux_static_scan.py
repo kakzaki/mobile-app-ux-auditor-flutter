@@ -8,6 +8,7 @@ Android projects. It is evidence gathering, not a full accessibility audit.
 from __future__ import annotations
 
 import argparse
+import collections
 import json
 import re
 import sys
@@ -344,7 +345,57 @@ def scan(
     )
     findings = duplicate_copy_findings(root, files) + findings
     findings = label_echo_findings(root, files) + findings
+    findings = emoji_density_findings(root, files) + findings
     return stack, findings, len(files), flutter_first
+
+
+EMOJI_RE = re.compile(
+    "[\U0001F300-\U0001FAFF\u2600-\u27BF\u2B00-\u2BFF\uFE0F]"
+)
+EMOJI_DENSITY_THRESHOLD = 12
+
+
+def emoji_density_findings(root: Path, files: list[Path]) -> list[Finding]:
+    """Report UI files with high emoji density.
+
+    Emoji as the sole affordance is an AI-slop tell; opensource icons and
+    Lottie should carry function and decoration. Files above the threshold
+    are triage candidates, NOT verdicts — a brief-declared warm identity
+    (e.g. maternal apps) may justify them. Confirm each emoji is paired
+    with a text label or Material icon before changing anything.
+    """
+    out: list[Finding] = []
+    for file_path in files:
+        if file_path.suffix.lower() != ".dart":
+            continue
+        rel = file_path.relative_to(root).as_posix()
+        if not (rel.startswith("lib/screens/") or rel.startswith("lib/widgets/")):
+            continue
+        try:
+            text = file_path.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
+            continue
+        hits = EMOJI_RE.findall(text)
+        if len(hits) <= EMOJI_DENSITY_THRESHOLD:
+            continue
+        top = ", ".join(
+            f"{e}×{c}" for e, c in collections.Counter(hits).most_common(5)
+        )
+        out.append(
+            Finding(
+                "P3",
+                "Flutter",
+                "Anti-slop",
+                "High emoji density — verify deliberate",
+                rel,
+                1,
+                f"{len(hits)} emoji: {top[:100]}",
+                "Keep only brief-declared emoji paired with labels; "
+                "use Material icons for affordances, Lottie for decoration. "
+                "See references/ai-slop.md.",
+            )
+        )
+    return out
 
 
 def duplicate_copy_findings(root: Path, files: list[Path]) -> list[Finding]:
