@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased (Flutter-first fork)
+
+- Scanner otomatis Flutter-first: pola Compose/Views/SwiftUI di-skip bila
+  terdeteksi `pubspec.yaml` (tanpa React Native); override via `--stack all`.
+- `IconButton` hanya dilaporkan bila tak ada `tooltip:` dalam 10 baris.
+- Cek safe-area/inset native di-skip dalam mode Flutter-first.
+- Hasil di app Flutter nyata: P1 64 → 4, P2 39 → 20.
+
 ## Unreleased
 
 - Add structured JSON output for automated audit pipelines.
